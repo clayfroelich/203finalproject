@@ -1,0 +1,26 @@
+ALL CORRECT CODE IS FOUND IN CLAY FROELICH'S GIT REPO
+
+1. 	To trigger the event, click anywhere on the world.
+
+2. 	A demon will spawn on the tile where mouse was clicked, as long as there is no entity occupying that tile.
+	Also, that tile's background will become a pentagram, along with all surrounding tiles.
+	If a miner is standing on one of the affected 9 tiles, it will become a dark miner.
+	If an oreblob is standing on one of the affected 9 tiles, it will burst into flame.
+
+3.	Miners, when affected, become dark miners. They now ignore ore and blacksmiths, instead targeting full miners.
+	When a dark miner gets to a full miner, it turns the full miner into a dark miner.
+
+	Oreblobs' sprites don't change, but they now have added functionality.
+	If there are no more veins to attack, oreblobs attack dark miners in "kamikaze" fashion by launching
+	themselves at dark miners and exploding into a ball of flame.
+
+4.	The new entity is a demon. It seeks to cause chaos initially and destroy everything eventually.
+	It turns non-full miners into dark miners. When there are no more non-full miners, it hunts oreblobs.
+	When a demon touches an oreblob, the oreblob turns into a ball of flame. Demons hunt dark miners last.
+	When a demon touches a dark miner, it explodes into a ball of flame. 
+	Demons never kill each other.
+
+	The idea is that the game ends when demons are the only survivors.
+
+5.	Clay Froelich altered existing behavior and added new classes and functionality to the code.
+	Simon Gelber made all images for the project.
