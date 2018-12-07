@@ -190,27 +190,32 @@ public final class VirtualWorld
    public void mousePressed()
    {
       Point pressed = view.viewport().viewportToWorld(mouseX/TILE_WIDTH, mouseY/TILE_HEIGHT);
-      EntityType zombie = new Zombie("zombie_1", pressed, imageStore.getImageList("zombie"), 400, 100);
+      EntityType demon = new Demon("demon_1", pressed, imageStore.getImageList("zombie"), 400, 100);
       if(!world.isOccupied(pressed)) {
-         world.addEntity(zombie);
-         ((Zombie) zombie).scheduleActions(scheduler, world, imageStore);
+         world.addEntity(demon);
+         ((Demon) demon).scheduleActions(scheduler, world, imageStore);
       }
 
       for(int i = -1; i < 2; i++) {
          for (int j = -1; j < 2; j++) {
             if (world.withinBounds(new Point(pressed.x + i, pressed.y + j))) {
                world.setBackgroundCell(new Point(pressed.x + i, pressed.y + j), new Background("pentagram_1", imageStore.getImageList("pentagram")));
-            }
-            if (world.isOccupied(new Point(pressed.x + i, pressed.y + j)) && world.getOccupancyCell(new Point(pressed.x + i, pressed.y + j)).getClass().equals(Miner.class)){
-               zombie = new Zombie("zombie" + (int)random(0, 10), pressed, imageStore.getImageList("zombie"), 400, 100);
-               world.removeEntity(world.getOccupancyCell(new Point(pressed.x + i, pressed.y + j)));
-               scheduler.unscheduleAllEvents(world.getOccupancyCell(new Point(pressed.x + i, pressed.y + j)));
-               world.addEntity(zombie);
-               ((Zombie) zombie).scheduleActions(scheduler, world, imageStore);
-            }
-            else if(world.isOccupied(new Point(pressed.x + i, pressed.y + j))) {
-               world.removeEntity(world.getOccupancyCell(new Point(pressed.x + i, pressed.y + j)));
-               scheduler.unscheduleAllEvents(world.getOccupancyCell(new Point(pressed.x + i, pressed.y + j)));
+               if(world.isOccupied(new Point(pressed.x + i, pressed.y + j))) {
+                  if (world.getOccupancyCell(new Point(pressed.x + i, pressed.y + j)).getClass().equals(Miner.class)) {
+                     EntityType darkminer = new DarkMiner("darkminer" + (int) random(0, 10), new Point(pressed.x + i, pressed.y + j), imageStore.getImageList("darkminer"), 400, 100);
+                     world.removeEntity(world.getOccupancyCell(new Point(pressed.x + i, pressed.y + j)));
+                     scheduler.unscheduleAllEvents(world.getOccupancyCell(new Point(pressed.x + i, pressed.y + j)));
+                     world.addEntity(darkminer);
+                     ((DarkMiner) darkminer).scheduleActions(scheduler, world, imageStore);
+                  }
+                  if (world.getOccupancyCell(new Point(pressed.x + i, pressed.y + j)).getClass().equals(OreBlob.class)) {
+                     EntityType flame = new Flame("flame" + (int) random(0, 10), new Point(pressed.x + i, pressed.y + j), imageStore.getImageList("flame"), 1500, 100);
+                     world.removeEntity(world.getOccupancyCell(new Point(pressed.x + i, pressed.y + j)));
+                     scheduler.unscheduleAllEvents(world.getOccupancyCell(new Point(pressed.x + i, pressed.y + j)));
+                     world.addEntity(flame);
+                     ((Flame) flame).scheduleActions(scheduler, world, imageStore);
+                  }
+               }
             }
          }
       }
